@@ -31,4 +31,9 @@
 
 服务保持运行供协调 Agent 复核。不终止他人服务。未执行 Git/commit/push/部署/memory/Artifact，也未改根计划或其他游戏。
 
-无阻塞问题；待协调 Agent 独立最终验收与上线，不能把本地通过视为已上线。
+## 主 Agent 发布与线上回归
+- 独立复跑112单测、构建与本地36项浏览器验收通过后，创建 https://github.com/Raingor/sliding-puzzle 并推送。
+- 首次线上验收暴露dialog异步close处理器抢焦点的真实竞争，交回原Agent移除重复恢复逻辑，增加确定性回归及严格真实Tab焦点断言。
+- 修复提交 `80b87e1`，Actions https://github.com/Raingor/sliding-puzzle/actions/runs/44716787330 成功。
+- 站点 https://raingor.github.io/sliding-puzzle/ ，修复后线上37/37浏览器检查通过，无页面/控制台/资源错误。
+- 修复后的开发和生产preview均37项通过，112单测与构建仍通过。线上报告 `artifacts/pages-report.json`。

@@ -5,7 +5,7 @@
 ## 仓库与在线试玩
 
 - GitHub：https://github.com/Raingor/sliding-puzzle
-- GitHub Pages：https://raingor.github.io/sliding-puzzle/ （首次发布与线上验收进行中）
+- GitHub Pages：https://raingor.github.io/sliding-puzzle/ （已上线，修复焦点竞争后线上37项检查通过）
 - main 推送自动执行单元测试、类型检查、生产构建和 Pages 发布。
 
 ## 运行
