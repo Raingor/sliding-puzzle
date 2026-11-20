@@ -1,4 +1,5 @@
 import './style.css';
+import { mountCharacters } from './characters';
 import { canMove, createGame, directionIndex, elapsed, move, moveDirection, type Direction, type Size } from './engine';
 import { load, record, restore, save, type StorageLike } from './storage';
 
@@ -22,6 +23,7 @@ app.innerHTML = `
         </section>
         <aside class="control-area" aria-label="游戏操作">
           <div class="control-heading"><span class="tiny-label">CHOOSE YOUR PACE</span><h2>从容，或是挑战。</h2></div>
+          <div id="companion-host" class="companion-host" aria-label="陪伴角色"></div>
           <div class="size-picker" role="group" aria-label="棋盘尺寸"><button data-size="3" aria-pressed="true"><strong>3 × 3</strong><span>轻松入门</span></button><button data-size="4" aria-pressed="false"><strong>4 × 4</strong><span>进阶挑战</span></button></div>
           <div class="best-record"><span class="tiny-label">PERSONAL BEST / 个人最佳</span><p id="best">尚无纪录，等你归位。</p><small>最少步数与最快用时分别记录</small></div>
           <div class="movement-controls"><div><h3>让数字向这边移动</h3><p id="input-help">方向键 / 在棋盘上滑动<br>箭头始终表示<strong>数字块</strong>的移动方向</p></div><div class="dpad" role="group" aria-label="数字块移动方向"><button data-direction="up" aria-label="数字块向上移动">↑</button><button data-direction="left" aria-label="数字块向左移动">←</button><span aria-hidden="true">移</span><button data-direction="right" aria-label="数字块向右移动">→</button><button data-direction="down" aria-label="数字块向下移动">↓</button></div></div>
@@ -37,6 +39,7 @@ app.innerHTML = `
   <dialog id="win-dialog" aria-labelledby="win-title"><button class="dialog-close" data-close="win-dialog" aria-label="关闭完成结算">×</button><p class="eyebrow">EVERYTHING IN ITS PLACE</p><div class="win-seal" aria-hidden="true">归</div><h2 id="win-title">恰好，各归其位。</h2><p class="win-sub">你把散落的数字，拼成了秩序。</p><div class="win-result"><span><strong id="win-moves"></strong> 步</span><span><strong id="win-time"></strong> 用时</span></div><p id="win-best"></p><button class="primary-button" id="play-again">再来一局</button><button class="text-button finish-view" data-close="win-dialog">留在完成的棋盘</button></dialog>
 `;
 const $ = <T extends HTMLElement>(selector: string) => document.querySelector<T>(selector)!;
+mountCharacters($('#companion-host'));
 const board = $<HTMLDivElement>('#board');
 const helpDialog = $<HTMLDialogElement>('#help-dialog');
 const winDialog = $<HTMLDialogElement>('#win-dialog');

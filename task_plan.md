@@ -10,4 +10,12 @@
 - [x] 112 条单测通过；严格 TS 与生产构建通过。
 - [x] 开发 5178 与 preview 4178 各 36 项真实 Chrome 验收；1440×900 / 390×844 / 360 宽。
 - [x] artifacts 截图和 JSON 报告；桌面/手机视觉复核；文档与真实进度汇报。
-- [ ] 协调 Agent 独立复核及 GitHub Pages 发布（不属于本 Agent 操作）。
+- [x] 原版协调 Agent 独立复核及 GitHub Pages 发布，焦点修复后线上37项通过（历史结果，非头像新版）。
+
+## 新增人物头像（2026-11-20）
+
+- [x] 读取消消乐19人目录，仅复制19张WebP至本项目，新增独立characters.ts/css。
+- [x] 珐琅陪伴卡/原生details全部角色选择、名称alt/aria-pressed、Esc与焦点、本地独立安全存储。
+- [x] 新增30条角色单测，总计142条通过；严格TS构建通过，dist包含19头像。
+- [x] 编写独立scripts/characters-smoke.mjs，node --check通过；README和进度说明本轮未跑浏览器。
+- [ ] 协调 Agent 错峰执行头像浏览器与原有37项回归，复核360宽/截图，发布后再线上验收。

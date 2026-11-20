@@ -37,3 +37,15 @@
 - 修复提交 `80b87e1`，Actions https://github.com/Raingor/sliding-puzzle/actions/runs/44716787330 成功。
 - 站点 https://raingor.github.io/sliding-puzzle/ ，修复后线上37/37浏览器检查通过，无页面/控制台/资源错误。
 - 修复后的开发和生产preview均37项通过，112单测与构建仍通过。线上报告 `artifacts/pages-report.json`。
+
+## 新增人物头像（本地实现，尚未浏览器/线上验收）
+
+- 只读消消乐catalog，复制19张WebP到本项目public/characters-2d（约700KB），无全身图/PNG/Three或兄弟运行时依赖。
+- 新增src/characters.ts与characters.css；操作区珐琅陪伴卡显示头像和名字，原生details展开19选项。选择后收起聚焦summary，Esc收起；游戏方向键监听和已修复dialog焦点逻辑保持不变。
+- 独立key `puzzle-sliding-character-v1`，版本/非法id/JSON/读写异常安全降级；不混用棋盘存档。
+- 新增src/characters.test.ts：30条角色校验/存储测试；最终npm test为142通过/3文件；npm run build通过且dist有19张WebP；node --check scripts/characters-smoke.mjs通过。
+- 遵照协调Agent错峰指令，本轮没有启动任何浏览器，不宣称新版截图、触屏或线上验收已通过。上节37项线上结果是头像加入前的历史。
+- 新脚本scripts/characters-smoke.mjs用独立Chrome/GAME_URL覆盖19图片、全角色选择/刷新、键盘/Esc、不抢棋盘、非法及禁用/配额存储、360宽。运行后写artifacts/characters-<SMOKE_LABEL>-desktop.png、mobile.png与report.json；现在仅完成脚本语法验证。
+- 交接命令：`GAME_URL=http://localhost:4178 SMOKE_LABEL=preview node scripts/characters-smoke.mjs`，再`GAME_URL=http://localhost:4178 npm run test:browser`。发布后把GAME_URL改为https://raingor.github.io/sliding-puzzle/，SMOKE_LABEL=pages复跑两脚本。
+- 本轮未Git/推送/部署/memory，未改根计划或其他游戏；服务没有新启停，保留既有5178/4178供协调Agent复核。
+

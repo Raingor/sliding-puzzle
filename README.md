@@ -27,6 +27,28 @@ GAME_URL=http://localhost:4178 npm run test:browser
 - 浏览器验收使用 Playwright + 本机 Chrome（`channel: 'chrome'`），每个场景新建独立上下文，不操作个人浏览器登录态。可用 `GAME_URL` 指向任意开发/生产站点，`SMOKE_LABEL` 指定本地报告文件前缀。
 - 无运行时第三方依赖、远程字体、外部图片或兄弟项目引用。
 
+## 陪你归位 · 19 位人物头像（本地新增，待浏览器及上线验收）
+
+操作区的珐琅陪伴卡显示当前头像和人物名字。点击或按 Enter/Space 展开原生角色选择面板，消消乐的全部 19 位人物均可直接选择，无解锁要求；选中后收起并返回展开按钮焦点。Escape 收起，方向键不会操作游戏棋盘。
+
+仅复制了 19 张 WebP 头像至 `public/characters-2d/`（约 700KB），不包含全身图、PNG 或 Three.js。目录与角色名称独立维护在 `src/characters.ts`，无兄弟项目运行时依赖；图片采用相对 URL 兼容 Pages 子路径。
+
+头像选择单独使用 `puzzle-sliding-character-v1`，保存 `{ version: 1, id }`，不覆盖棋盘或纪录。非法 id、错误版本、坏 JSON、localStorage 属性/读取/写入异常均安全默认或仅在当前会话使用新选择。
+
+本次新增后已执行：**142 条单测通过 / 3 文件**（含新增 30 条角色存储测试），`npm run build` 通过，`node --check scripts/characters-smoke.mjs` 通过，生产目录有 19 张 WebP。遵照错峰指令**尚未启动新版浏览器验收**，下面原有线上37项及旧截图均为头像加入前的历史结果，不代表新版已上线或已通过浏览器。
+
+协调 Agent 验收命令：
+
+```sh
+GAME_URL=http://localhost:4178 SMOKE_LABEL=preview node scripts/characters-smoke.mjs
+GAME_URL=http://localhost:4178 npm run test:browser
+# 发布后再验，不能用旧版站点代替本地新版：
+GAME_URL=https://raingor.github.io/sliding-puzzle/ SMOKE_LABEL=pages node scripts/characters-smoke.mjs
+GAME_URL=https://raingor.github.io/sliding-puzzle/ npm run test:browser
+```
+
+头像脚本使用独立 Chrome 上下文，覆盖 19 张图片解码、全部角色选择、刷新、键盘和 Escape、非法/不可用存储及 360 宽布局；截图/报告为 `artifacts/characters-<SMOKE_LABEL>-{desktop,mobile}.png` 和 `characters-<SMOKE_LABEL>-report.json`。目前脚本已写入但未运行，没有声称产生新截图。
+
 ## 玩法
 
 - 支持 3×3 轻松入门与 4×4 进阶挑战。
@@ -51,7 +73,7 @@ GAME_URL=http://localhost:4178 npm run test:browser
 
 浏览器固定胜利夹具通过上述正式存档格式注入，最后一步仍由真实 UI 输入完成；产品没有全局作弊变量、测试后门或开发态 `/src` 动态导入。
 
-## 验证结果（2026-11-20）
+## 原版验证结果（2026-11-20，头像加入前历史）
 
 - `npm test`：**112 条通过 / 2 个文件**。包含 3/4 阶各 40 种子打乱不变量、逆回放、边界、无效操作、计时/胜利与存储异常。
 - `npm run build`：严格 TS 检查及 Vite 生产构建通过。
