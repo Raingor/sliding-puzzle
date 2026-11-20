@@ -49,3 +49,8 @@
 - 交接命令：`GAME_URL=http://localhost:4178 SMOKE_LABEL=preview node scripts/characters-smoke.mjs`，再`GAME_URL=http://localhost:4178 npm run test:browser`。发布后把GAME_URL改为https://raingor.github.io/sliding-puzzle/，SMOKE_LABEL=pages复跑两脚本。
 - 本轮未Git/推送/部署/memory，未改根计划或其他游戏；服务没有新启停，保留既有5178/4178供协调Agent复核。
 
+## 主Agent人物版发布验收（2026-11-20）
+- 代码提交 `b064e7d` 已推送main，Pages工作流 https://github.com/Raingor/sliding-puzzle/actions/runs/44733718911 成功。
+- 主Agent独立单测与生产构建通过；本地与线上均通过 39 项人物检查和 37 项完整玩法回归。
+- 线上地址 https://raingor.github.io/sliding-puzzle/ ，全部19张头像加载、选择与刷新保存、键盘与360px手机、存储异常降级通过；无页面、控制台或HTTP资源错误。
+- 新版已上线，上文子Agent“未启动浏览器/待主Agent发布”仅为历史交接状态；截图和JSON位于忽略的artifacts目录，不提交构建/凭据。

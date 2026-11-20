@@ -5,7 +5,7 @@
 ## 仓库与在线试玩
 
 - GitHub：https://github.com/Raingor/sliding-puzzle
-- GitHub Pages：https://raingor.github.io/sliding-puzzle/ （已上线，修复焦点竞争后线上37项检查通过）
+- GitHub Pages：https://raingor.github.io/sliding-puzzle/ （19角色版已上线，线上39项头像检查及37项完整玩法回归通过；142项单测和严格构建通过）
 - main 推送自动执行单元测试、类型检查、生产构建和 Pages 发布。
 
 ## 运行
@@ -27,7 +27,7 @@ GAME_URL=http://localhost:4178 npm run test:browser
 - 浏览器验收使用 Playwright + 本机 Chrome（`channel: 'chrome'`），每个场景新建独立上下文，不操作个人浏览器登录态。可用 `GAME_URL` 指向任意开发/生产站点，`SMOKE_LABEL` 指定本地报告文件前缀。
 - 无运行时第三方依赖、远程字体、外部图片或兄弟项目引用。
 
-## 陪你归位 · 19 位人物头像（本地新增，待浏览器及上线验收）
+## 陪你归位 · 19 位人物头像（已上线并完成浏览器验收）
 
 操作区的珐琅陪伴卡显示当前头像和人物名字。点击或按 Enter/Space 展开原生角色选择面板，消消乐的全部 19 位人物均可直接选择，无解锁要求；选中后收起并返回展开按钮焦点。Escape 收起，方向键不会操作游戏棋盘。
 
@@ -35,7 +35,7 @@ GAME_URL=http://localhost:4178 npm run test:browser
 
 头像选择单独使用 `puzzle-sliding-character-v1`，保存 `{ version: 1, id }`，不覆盖棋盘或纪录。非法 id、错误版本、坏 JSON、localStorage 属性/读取/写入异常均安全默认或仅在当前会话使用新选择。
 
-本次新增后已执行：**142 条单测通过 / 3 文件**（含新增 30 条角色存储测试），`npm run build` 通过，`node --check scripts/characters-smoke.mjs` 通过，生产目录有 19 张 WebP。遵照错峰指令**尚未启动新版浏览器验收**，下面原有线上37项及旧截图均为头像加入前的历史结果，不代表新版已上线或已通过浏览器。
+本次新增后已执行：**142 条单测通过 / 3 文件**（含新增 30 条角色存储测试），`npm run build` 通过，`node --check scripts/characters-smoke.mjs` 通过，生产目录有 19 张 WebP。子Agent遵照错峰指令未启动浏览器；主Agent随后独立本地与线上均通过39项头像+37项玩法检查。人物版 `b064e7d` 已发布，Pages部署44733718911成功。
 
 协调 Agent 验收命令：
 
@@ -95,4 +95,4 @@ GAME_URL=https://raingor.github.io/sliding-puzzle/ npm run test:browser
 
 ## 边界
 
-首版不包含自动求解、撤销、排行榜或云同步。四阶可能需要较多探索，可随时重新开局。验收要求本机已安装 Chrome；移动端由 Chrome 触屏上下文与 CDP Touch 真实输入协议验证，未声称在实体 iOS/Android 设备上测试。GitHub 仓库/Pages 由协调 Agent 配置和最终验收，此处不宣称已上线。
+首版不包含自动求解、撤销、排行榜或云同步。四阶可能需要较多探索，可随时重新开局。验收要求本机已安装 Chrome；移动端由 Chrome 触屏上下文与 CDP Touch 真实输入协议验证，未声称在实体 iOS/Android 设备上测试。GitHub 仓库/Pages 由主Agent配置和最终验收；人物版现已上线，实际发布记录见progress.md。
