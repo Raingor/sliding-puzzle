@@ -61,8 +61,22 @@ try {
   check('modal arrow keys cannot move background game', (await getSave(page)).current.moves === 0);
   await page.keyboard.press('Escape');
   check('Escape closes rules and restores focus', await page.locator('#help-open').evaluate(el => el === document.activeElement));
-  await page.locator('#board').focus();
-  check('keyboard focus is clearly visible', await page.locator('#board').evaluate(el => getComputedStyle(el).outlineStyle !== 'none'));
+  await page.keyboard.press('Tab');
+  check('real Tab reaches board with a clearly visible keyboard focus ring', await page.locator('#board').evaluate(el => {
+    const style = getComputedStyle(el);
+    return document.activeElement === el && el.matches(':focus-visible') && style.outlineStyle === 'solid' && parseFloat(style.outlineWidth) >= 3 && style.outlineColor === 'rgb(207, 126, 57)';
+  }));
+  await page.locator('#help-open').click();
+  const focusRetained = await page.evaluate(async () => {
+    document.querySelector('#help-dialog').close();
+    const board = document.querySelector('#board');
+    board.focus();
+    // Flush the queued close event: it must not override subsequent focus.
+    await new Promise(requestAnimationFrame);
+    await new Promise(requestAnimationFrame);
+    return document.activeElement === board;
+  });
+  check('queued dialog close event never steals subsequent board focus', focusRetained);
   const invalidBox = await page.locator('[data-tile="1"]').boundingBox();
   assert.ok(invalidBox);
   await page.mouse.click(invalidBox.x + invalidBox.width / 2, invalidBox.y + invalidBox.height / 2);

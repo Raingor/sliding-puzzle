@@ -44,7 +44,6 @@ let storage: StorageLike | undefined;
 try { storage = window.localStorage; } catch { /* Private mode may deny even the getter. */ }
 let data = load(storage);
 let game = data.current ? restore(data.current, Date.now()) : createGame(3);
-let previousFocus: HTMLElement | null = null;
 let gesture: { x: number; y: number; id: number } | null = null;
 let suppressClickUntil = 0;
 let lastSize: Size | undefined;
@@ -57,13 +56,11 @@ function persist() {
   $('#storage-note').textContent = ok ? '进度与纪录仅保存在这台设备' : '本地保存不可用，仍可正常游玩';
 }
 function openDialog(dialog: HTMLDialogElement) {
-  previousFocus = document.activeElement as HTMLElement;
   dialog.showModal();
 }
 for (const dialog of [helpDialog, winDialog]) {
-  dialog.addEventListener('close', () => {
-    (previousFocus?.isConnected ? previousFocus : board)?.focus();
-  });
+  // Native dialog closing restores focus synchronously. A queued `close`
+  // listener must not steal focus from the user's subsequent Tab or action.
   dialog.addEventListener('click', event => { if (event.target === dialog) {
     const r = dialog.getBoundingClientRect();
     const e = event as MouseEvent;
