@@ -2,13 +2,14 @@ import './style.css';
 import { mountCharacters } from './characters';
 import { canMove, createGame, directionIndex, elapsed, move, moveDirection, type Direction, type Size } from './engine';
 import { load, record, restore, save, type StorageLike } from './storage';
+import { closeIcon, helpIcon, restartIcon } from './icons';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 app.innerHTML = `
   <div class="page-shell">
     <header class="masthead">
       <a class="wordmark" href="./" aria-label="归位，数字华容道首页"><span class="brand-mark" aria-hidden="true">归</span><span>归位<span class="brand-sub">THE SLIDING PUZZLE</span></span></a>
-      <button class="text-button" id="help-open" aria-haspopup="dialog"><span class="question" aria-hidden="true">?</span> 玩法说明</button>
+      <button class="text-button" id="help-open" aria-haspopup="dialog">${helpIcon} 玩法说明</button>
     </header>
     <main>
       <div class="intro"><div><p class="eyebrow">一方珐琅 · 一刻专注</p><h1>数字华容道<span class="title-dot">。</span></h1></div><p class="intro-note">留一格空白，<br>让每个数字找到自己的位置。</p></div>
@@ -27,7 +28,7 @@ app.innerHTML = `
           <div class="size-picker" role="group" aria-label="棋盘尺寸"><button data-size="3" aria-pressed="true"><strong>3 × 3</strong><span>轻松入门</span></button><button data-size="4" aria-pressed="false"><strong>4 × 4</strong><span>进阶挑战</span></button></div>
           <div class="best-record"><span class="tiny-label">PERSONAL BEST / 个人最佳</span><p id="best">尚无纪录，等你归位。</p><small>最少步数与最快用时分别记录</small></div>
           <div class="movement-controls"><div><h3>让数字向这边移动</h3><p id="input-help">方向键 / 在棋盘上滑动<br>箭头始终表示<strong>数字块</strong>的移动方向</p></div><div class="dpad" role="group" aria-label="数字块移动方向"><button data-direction="up" aria-label="数字块向上移动">↑</button><button data-direction="left" aria-label="数字块向左移动">←</button><span aria-hidden="true">移</span><button data-direction="right" aria-label="数字块向右移动">→</button><button data-direction="down" aria-label="数字块向下移动">↓</button></div></div>
-          <button id="restart" class="restart-button"><span aria-hidden="true">↻</span> 重新开局<span class="button-note">重新打乱</span></button>
+          <button id="restart" class="restart-button">${restartIcon} 重新开局<span class="button-note">重新打乱</span></button>
           <p class="storage-note" id="storage-note">进度与纪录仅保存在这台设备</p>
           <div class="closing-note" aria-hidden="true"><span>01 — 08 / 15</span><p>不必急于抵达，<br>每一次移动，都更接近秩序。</p></div>
         </aside>
@@ -35,8 +36,8 @@ app.innerHTML = `
     </main>
     <footer><span>归位 · 把片刻交还给自己</span><span>BLUE ENAMEL EDITION</span></footer>
   </div>
-  <dialog id="help-dialog" aria-labelledby="help-title"><button class="dialog-close" data-close="help-dialog" aria-label="关闭玩法说明">×</button><p class="eyebrow">HOW TO PLAY</p><h2 id="help-title">一格之间，自有秩序。</h2><ol><li>将数字按从左到右、从上到下的顺序排列，最后一格留空。</li><li>点击与空格上下左右相邻的数字块，让它滑入空位；不能斜移或跨格。</li><li>先点击棋盘或用 Tab 聚焦棋盘，再使用方向键。方向键、触屏按钮与滑动均表示<strong>数字块移动方向</strong>。例如向左：空格右侧的数字向左滑入空位。</li><li>第一步有效移动开始计时，归位即停止。切换尺寸或重新开局会打乱新盘；无效移动不计步。关闭说明时本局继续计时。</li></ol><div class="goal-example" aria-label="三阶完成示例">${[1,2,3,4,5,6,7,8,''].map(n => `<span>${n}</span>`).join('')}</div><p class="dialog-footnote">每局由合法移动打乱，始终有解。刷新可续局；离开页面的时间不计入用时。</p><button class="primary-button" data-close="help-dialog">明白了，开始归位</button></dialog>
-  <dialog id="win-dialog" aria-labelledby="win-title"><button class="dialog-close" data-close="win-dialog" aria-label="关闭完成结算">×</button><p class="eyebrow">EVERYTHING IN ITS PLACE</p><div class="win-seal" aria-hidden="true">归</div><h2 id="win-title">恰好，各归其位。</h2><p class="win-sub">你把散落的数字，拼成了秩序。</p><div class="win-result"><span><strong id="win-moves"></strong> 步</span><span><strong id="win-time"></strong> 用时</span></div><p id="win-best"></p><button class="primary-button" id="play-again">再来一局</button><button class="text-button finish-view" data-close="win-dialog">留在完成的棋盘</button></dialog>
+  <dialog id="help-dialog" aria-labelledby="help-title"><button class="dialog-close" data-close="help-dialog" aria-label="关闭玩法说明">${closeIcon}</button><p class="eyebrow">HOW TO PLAY</p><h2 id="help-title">一格之间，自有秩序。</h2><ol><li>将数字按从左到右、从上到下的顺序排列，最后一格留空。</li><li>点击与空格上下左右相邻的数字块，让它滑入空位；不能斜移或跨格。</li><li>先点击棋盘或用 Tab 聚焦棋盘，再使用方向键。方向键、触屏按钮与滑动均表示<strong>数字块移动方向</strong>。例如向左：空格右侧的数字向左滑入空位。</li><li>第一步有效移动开始计时，归位即停止。切换尺寸或重新开局会打乱新盘；无效移动不计步。关闭说明时本局继续计时。</li></ol><div class="goal-example" aria-label="三阶完成示例">${[1,2,3,4,5,6,7,8,''].map(n => `<span>${n}</span>`).join('')}</div><p class="dialog-footnote">每局由合法移动打乱，始终有解。刷新可续局；离开页面的时间不计入用时。</p><button class="primary-button" data-close="help-dialog">明白了，开始归位</button></dialog>
+  <dialog id="win-dialog" aria-labelledby="win-title"><button class="dialog-close" data-close="win-dialog" aria-label="关闭完成结算">${closeIcon}</button><p class="eyebrow">EVERYTHING IN ITS PLACE</p><div class="win-seal" aria-hidden="true">归</div><h2 id="win-title">恰好，各归其位。</h2><p class="win-sub">你把散落的数字，拼成了秩序。</p><div class="win-result"><span><strong id="win-moves"></strong> 步</span><span><strong id="win-time"></strong> 用时</span></div><p id="win-best"></p><button class="primary-button" id="play-again">再来一局</button><button class="text-button finish-view" data-close="win-dialog">留在完成的棋盘</button></dialog>
 `;
 const $ = <T extends HTMLElement>(selector: string) => document.querySelector<T>(selector)!;
 mountCharacters($('#companion-host'));

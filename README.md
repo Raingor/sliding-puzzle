@@ -96,3 +96,7 @@ GAME_URL=https://raingor.github.io/sliding-puzzle/ npm run test:browser
 ## 边界
 
 首版不包含自动求解、撤销、排行榜或云同步。四阶可能需要较多探索，可随时重新开局。验收要求本机已安装 Chrome；移动端由 Chrome 触屏上下文与 CDP Touch 真实输入协议验证，未声称在实体 iOS/Android 设备上测试。GitHub 仓库/Pages 由主Agent配置和最终验收；人物版现已上线，实际发布记录见progress.md。
+
+## 图标来源
+
+页面 favicon 与界面图标于 2026-11-23 通过 opencli 从 [iconfont.cn](https://www.iconfont.cn/) 搜索采集；图标名称、ID、搜索词与落位见根目录 `../icons-source.md`。界面图标统一以 `currentColor` 渲染，favicon 使用本项目主题色。
