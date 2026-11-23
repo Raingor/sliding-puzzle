@@ -57,7 +57,7 @@
 
 ## 2026-11-23 · iconfont 图标重采
 
-- 通过 opencli 访问 iconfont.cn 搜索采集页面 favicon 与界面图标，图标名称、ID、搜索词和落位见根目录 `../icons-source.md`。
+- 通过 opencli 访问 iconfont.cn 搜索采集页面 favicon 与界面图标，图标名称、ID、搜索词和落位见 [ICONS.md](./ICONS.md)。
 - 新增 `public/favicon.svg`，`index.html` 改用该文件；界面图标统一以 `currentColor` 渲染，favicon 使用本项目主题色圆角底。
 - 玩法说明、重新开局与两个弹窗关闭按钮改用 iconfont 帮助/重置/关闭图标，替换 ? / ↻ / × 字符。
 - `npm test`、`npm run build` 通过；浏览器冒烟 37 项通过，截图复核图标尺寸、对比度与语义正常。
